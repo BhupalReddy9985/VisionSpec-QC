@@ -30,5 +30,3 @@ This project demonstrates the complete pipeline from model training to deploymen
 - Flask  
 - OpenCV  
 - NumPy  
-
--
