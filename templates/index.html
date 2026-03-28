@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionSpec QC | AI Visual Control</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="mesh-bg"></div>
+    
+    <div class="container">
+        <header>
+            <div class="brand">
+                <div class="brand-icon">V</div>
+                <div class="brand-name">VisionSpec QC</div>
+            </div>
+            <div class="header-status">
+                <span style="color: rgba(255, 255, 255, 0.4);">MODEL STATUS: </span>
+                <span id="model-status" style="color: var(--brand-primary); font-weight: bold;">ONLINE</span>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- Left Panel: Input -->
+            <section class="panel">
+                <h2>Inspection Interface</h2>
+                <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                    <div id="drop-text">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-primary); margin-bottom: 20px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <br>
+                        <span>DROP IMAGE OR CLICK TO UPLOAD PCB</span>
+                    </div>
+                    <img id="image-preview" src="" alt="Preview">
+                    <div class="scanning-line" id="scanning-line"></div>
+                </div>
+                <input type="file" id="file-input" style="display: none" accept="image/*" onchange="previewImage(event)">
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button id="inspect-btn" onclick="runInspection()" disabled>START INSPECTION</button>
+                    <button class="secondary" onclick="loadSimulation()" style="background: rgba(255, 255, 255, 0.1); border: 1px solid var(--glass-border); color: white; margin-left:10px;">Simulation Mode</button>
+                </div>
+            </section>
+
+            <!-- Right Panel: Result Detail -->
+            <section class="panel" id="result-panel">
+                <h2>Inspection Result</h2>
+                <div id="result-content" style="display: none;">
+                    <div class="result-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <span id="status-badge" class="status-pill status-pass">PASS</span>
+                            <div class="stats-item">
+                                <span class="stats-label">Confidence: </span>
+                                <span class="stats-value" id="confidence-val">99.8%</span>
+                            </div>
+                            <div class="stats-item">
+                                <span class="stats-label">Classification: </span>
+                                <span class="stats-value" id="category-val">Soldering Joint OK</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heatmap-container">
+                        <h2 style="font-size: 0.9rem; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.5);">Defect Correlation (Grad-CAM Trace)</h2>
+                        <img id="heatmap-img" src="" alt="Grad-CAM Overlay">
+                    </div>
+                </div>
+                <div id="no-result" style="height: 400px; display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.3);">
+                    <p>WAITING FOR INSPECTION DATA...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            VisionSpec QC - Version 1.0.5 | Built for Industrial Quality Control Excellence
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
